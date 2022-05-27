@@ -4,5 +4,6 @@ const message = {
     BAD_REQUEST: '잘못된 요청',
     INTERNAL_SERVER_ERROR: '서버 내부 오류'
 }
+  CREATE_PROJECT_SUCCESS: '프로젝트 생성 성공',
 
 export default message;
