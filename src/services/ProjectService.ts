@@ -36,4 +36,31 @@ const createProject = async (
     throw error;
   }
 };
-export default { createProject };
+
+const getProjects = async (): Promise<ProjectResponseDto[]> => {
+  try {
+    const projects = await Project.find()
+      .populate('writer')
+      .sort({ createdAt: -1 });
+
+    const data = await Promise.all(
+      projects.map((project: any) => {
+        const result = {
+          _id: project._id,
+          title: project.title,
+          photo: project.photo,
+          writer: {
+            name: project.writer.name,
+            photo: project.writer.photo,
+          },
+        };
+        return result;
+      })
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+export default { createProject, getProjects };
