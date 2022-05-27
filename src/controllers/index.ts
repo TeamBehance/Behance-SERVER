@@ -1,3 +1,3 @@
 import ProjectController from './ProjectController';
-import StoryController from './StoryController';
-export default { ProjectController, StoryController };
+import FileController from './FileController';
+export default { ProjectController, FileController };
