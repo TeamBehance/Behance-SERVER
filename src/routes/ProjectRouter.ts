@@ -14,6 +14,16 @@ router.post(
   ProjectController.createProject
 );
 
+router.post(
+  '/android',
+  [
+    body('title').notEmpty(),
+    body('photo').notEmpty(),
+    body('writer').notEmpty(),
+  ],
+  ProjectController.createProject_android
+);
+
 router.get('/', ProjectController.getProjects);
 
 export default router;

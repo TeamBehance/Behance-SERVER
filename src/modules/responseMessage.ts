@@ -8,6 +8,8 @@ const message = {
   CREATE_PROJECT_SUCCESS: '프로젝트 생성 성공',
   READ_PROJECT_SUCCESS: '전체 프로젝트 조회 성공',
   NOT_FOUND_PROJECT: '게시글이 존재하지 않습니다',
+  READ_STORY_SUCCESS: '전체 스토리 조회 성공',
+  NOT_FOUND_STORY: '스토리가 존재하지 않습니다',
 };
 
 export default message;
