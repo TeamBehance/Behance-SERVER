@@ -41,4 +41,34 @@ const createProject = async (req: Request, res: Response) => {
       );
   }
 };
-export default { createProject };
+
+/**
+ * @route GET /project
+ * @desc Get Projects
+ * @access Public
+ */
+const getProjects = async (req: Request, res: Response) => {
+  try {
+    const data = await ProjectService.getProjects();
+
+    if (data.length === 0) {
+      return res
+        .status(statusCode.NOT_FOUND)
+        .send(util.fail(statusCode.NOT_FOUND, message.NOT_FOUND_PROJECT));
+    }
+
+    res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.READ_PROJECT_SUCCESS, data));
+  } catch (error) {
+    res
+      .status(statusCode.INTERNAL_SERVER_ERROR)
+      .send(
+        util.fail(
+          statusCode.INTERNAL_SERVER_ERROR,
+          message.INTERNAL_SERVER_ERROR
+        )
+      );
+  }
+};
+export default { createProject, getProjects };
