@@ -1,3 +1,6 @@
+import FileService from './FileService';
+import StoryService from './StoryService';
 import ProjectService from './ProjectService';
 
-export default { ProjectService };
+//service index file
+export { FileService, StoryService, ProjectService };

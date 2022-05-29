@@ -5,7 +5,7 @@ import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
 import ProjectService from '../services/ProjectService';
-import { ProjectCreateDto } from '../interfaces/project/ProjectCreateDto'
+import { ProjectCreateDto } from '../interfaces/project/ProjectCreateDto';
 
 /**
  * @route POST /project/ios
@@ -43,7 +43,6 @@ const createProject = async (req: Request, res: Response) => {
   }
 };
 
-
 /**
  * @route POST /project/android
  * @desc Create Project
@@ -52,19 +51,34 @@ const createProject = async (req: Request, res: Response) => {
 const createProject_android = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
-    return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
   const projectCreateDto: ProjectCreateDto = req.body;
   try {
     const data = await ProjectService.createProject(projectCreateDto);
-    if (!data) res.status(statusCode.NOT_FOUND).send(util.fail(statusCode.NOT_FOUND, message.NOT_FOUND));
-    res.status(statusCode.CREATED).send(util.success(statusCode.CREATED, message.CREATE_PROJECT_SUCCESS, data));
+    if (!data)
+      res
+        .status(statusCode.NOT_FOUND)
+        .send(util.fail(statusCode.NOT_FOUND, message.NOT_FOUND));
+    res
+      .status(statusCode.CREATED)
+      .send(
+        util.success(statusCode.CREATED, message.CREATE_PROJECT_SUCCESS, data)
+      );
   } catch (error) {
     console.log(error);
-    res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+    res
+      .status(statusCode.INTERNAL_SERVER_ERROR)
+      .send(
+        util.fail(
+          statusCode.INTERNAL_SERVER_ERROR,
+          message.INTERNAL_SERVER_ERROR
+        )
+      );
   }
-}
-
+};
 
 /**
  * @route GET /project
@@ -98,5 +112,5 @@ const getProjects = async (req: Request, res: Response) => {
 export default {
   createProject,
   getProjects,
-  createProject_android
+  createProject_android,
 };
