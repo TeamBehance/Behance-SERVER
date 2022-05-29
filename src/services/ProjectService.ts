@@ -2,6 +2,7 @@ import { ProjectResponseDto } from '../interfaces/project/ProjectResponseDto';
 import { ProjectInfo } from '../interfaces/project/ProjectInfo';
 import Project from '../models/Project';
 import User from '../models/User';
+import { ProjectCreateDto } from '../interfaces/project/ProjectCreateDto';
 
 const createProject = async (
   projectInfo: ProjectInfo
@@ -37,6 +38,35 @@ const createProject = async (
   }
 };
 
+
+const createProject_android = async (projectCreateDto: ProjectCreateDto): Promise<ProjectResponseDto | null> => {
+  try {
+    const project = new Project(projectCreateDto);
+    await project.save();
+
+    const writer = await User.findById(project.writer);
+    if (!writer) {
+      return null;
+    }
+
+    const data = {
+      _id: project._id,
+      title: project.title,
+      photo: project.photo,
+      writer: {
+        name: writer.name,
+        photo: writer.photo,
+      },
+    };
+    return data;
+
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+
 const getProjects = async (): Promise<ProjectResponseDto[]> => {
   try {
     const projects = await Project.find()
@@ -63,4 +93,4 @@ const getProjects = async (): Promise<ProjectResponseDto[]> => {
     throw error;
   }
 };
-export default { createProject, getProjects };
+export default { createProject, getProjects, createProject_android };
