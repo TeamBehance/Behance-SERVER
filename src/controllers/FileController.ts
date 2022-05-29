@@ -1,29 +1,20 @@
 import express, { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
-import FileService from '../services/FileService';
+import { FileService } from '../services';
 
 const uploadFileToS3 = async (req: Request, res: Response) => {
-  const error = validationResult(req);
-
-  if (!error.isEmpty()) {
+  if (!req.file)
     return res
       .status(statusCode.BAD_REQUEST)
       .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
 
-  if (!req.file) {
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
-
-  const fileData: Express.Multer.File = req.file;
+  const image: Express.MulterS3.File = req.file as Express.MulterS3.File;
+  const { originalname, location } = image;
 
   try {
-    const data = await FileService.uploadFileToS3(fileData);
+    const data = await FileService.createFile(location, originalname);
 
     res
       .status(statusCode.CREATED)

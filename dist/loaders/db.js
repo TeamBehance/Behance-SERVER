@@ -14,21 +14,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("../config"));
+const File_1 = __importDefault(require("../models/File"));
 const Project_1 = __importDefault(require("../models/Project"));
-const Story_1 = __importDefault(require("../models/Story"));
 const User_1 = __importDefault(require("../models/User"));
+const Story_1 = __importDefault(require("../models/Story"));
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(config_1.default.mongoURI);
         mongoose_1.default.set('autoCreate', true);
         console.log('Mongoose Connected ...');
-        User_1.default.createCollection().then((collection) => {
-            console.log('User Collection Created');
+        User_1.default.createCollection().then(function (collection) {
+            console.log('User collection created');
         });
-        Project_1.default.createCollection().then((collection) => {
+        Project_1.default.createCollection().then(function (collection) {
             console.log('Project Collection Created');
         });
-        Story_1.default.createCollection().then((collection) => {
+        File_1.default.createCollection().then(function (collection) {
+            console.log('File Collection Created');
+        });
+        Story_1.default.createCollection().then(function (collection) {
             console.log('Story Collection Created');
         });
     }

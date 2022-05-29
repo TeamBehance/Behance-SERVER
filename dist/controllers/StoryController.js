@@ -25,13 +25,19 @@ const getStories = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const data = yield StoryService_1.default.getStories();
         if (data.length === 0) {
-            return res.status(statusCode_1.default.NOT_FOUND).send(util_1.default.fail(statusCode_1.default.NOT_FOUND, responseMessage_1.default.NOT_FOUND_STORY));
+            return res
+                .status(statusCode_1.default.NOT_FOUND)
+                .send(util_1.default.fail(statusCode_1.default.NOT_FOUND, responseMessage_1.default.NOT_FOUND_STORY));
         }
-        res.status(statusCode_1.default.OK).send(util_1.default.success(statusCode_1.default.OK, responseMessage_1.default.READ_STORY_SUCCESS, data));
+        res
+            .status(statusCode_1.default.OK)
+            .send(util_1.default.success(statusCode_1.default.OK, responseMessage_1.default.READ_STORY_SUCCESS, data));
     }
     catch (error) {
         console.log(error);
-        res.status(statusCode_1.default.INTERNAL_SERVER_ERROR).send(util_1.default.fail(statusCode_1.default.INTERNAL_SERVER_ERROR, responseMessage_1.default.INTERNAL_SERVER_ERROR));
+        res
+            .status(statusCode_1.default.INTERNAL_SERVER_ERROR)
+            .send(util_1.default.fail(statusCode_1.default.INTERNAL_SERVER_ERROR, responseMessage_1.default.INTERNAL_SERVER_ERROR));
     }
 });
 exports.default = { getStories };

@@ -1,46 +1,51 @@
-import config from '../config';
-import storage from '../config/s3Config';
-import File from '../models/File';
-import fs from 'fs';
-import { FileResponseDto } from '../interfaces/file/FileResponseDto';
+import File from "../models/File";
+import { FileResponseDto } from "../interfaces/file/FileResponseDto";
 
-const uploadFileToS3 = async (
-  fileData: Express.Multer.File
-): Promise<FileResponseDto> => {
-  try {
-    const fileContent: Buffer = fs.readFileSync(fileData.path);
+const createFile = async (link: string, fileName: string): Promise<FileResponseDto> => {
+    try {
+        const file = new File({
+            link,
+            fileName
+        });
 
-    const params: {
-      Bucket: string;
-      Key: string;
-      Body: Buffer;
-    } = {
-      Bucket: config.bucketName,
-      Key: fileData.originalname,
-      Body: fileContent,
-    };
+        await file.save();
 
-    const result = await storage.upload(params).promise();
+        const data = {
+            _id: file._id,
+            link
+        };
 
-    const file = new File({
-      link: result.Location,
-      fileName: fileData.originalname,
-    });
+        return data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
 
-    await file.save();
+const createFiles = async (imageList: { location: string, originalname: string }[]): Promise<FileResponseDto[]> => {
+    try {
+        const data = await Promise.all(imageList.map(async image => {
+            const file = new File({
+                link: image.location,
+                fileName: image.originalname
+            });
 
-    const data = {
-      _id: file._id,
-      link: result.Location,
-    };
+            await file.save();
 
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+            return {
+                _id: file._id,
+                link: file.link
+            };
+        }));
+
+        return data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
 };
 
 export default {
-  uploadFileToS3,
-};
+    createFile,
+    createFiles
+}

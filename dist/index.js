@@ -4,6 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const multer_1 = __importDefault(require("multer"));
+const config_1 = __importDefault(require("./config"));
 const app = (0, express_1.default)();
 const db_1 = __importDefault(require("./loaders/db"));
 const routes_1 = __importDefault(require("./routes"));
@@ -11,23 +13,31 @@ require('dotenv').config();
 (0, db_1.default)();
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
-app.use(routes_1.default); //라우터
+app.use(routes_1.default); //라우터 
+// 모든 에러
 app.use(function (err, req, res, next) {
+    if (err instanceof multer_1.default.MulterError) {
+        return res.json({
+            success: 0,
+            message: err.message
+        });
+    }
     res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'production' ? err : {};
+    res.locals.error = req.app.get("env") === "production" ? err : {};
     // render the error page
     res.status(err.status || 500);
-    res.render('error');
+    // res.render("error");
+    res.send(err);
 });
 app
-    .listen(process.env.PORT, () => {
+    .listen(config_1.default.port, () => {
     console.log(`
     ################################################
           🛡️  Server listening on port 🛡️
     ################################################
   `);
 })
-    .on('error', (err) => {
+    .on("error", (err) => {
     console.error(err);
     process.exit(1);
 });

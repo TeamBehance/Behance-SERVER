@@ -50,18 +50,26 @@ const createProject = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 const createProject_android = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const error = (0, express_validator_1.validationResult)(req);
     if (!error.isEmpty()) {
-        return res.status(statusCode_1.default.BAD_REQUEST).send(util_1.default.fail(statusCode_1.default.BAD_REQUEST, responseMessage_1.default.NULL_VALUE));
+        return res
+            .status(statusCode_1.default.BAD_REQUEST)
+            .send(util_1.default.fail(statusCode_1.default.BAD_REQUEST, responseMessage_1.default.NULL_VALUE));
     }
     const projectCreateDto = req.body;
     try {
         const data = yield ProjectService_1.default.createProject(projectCreateDto);
         if (!data)
-            res.status(statusCode_1.default.NOT_FOUND).send(util_1.default.fail(statusCode_1.default.NOT_FOUND, responseMessage_1.default.NOT_FOUND));
-        res.status(statusCode_1.default.CREATED).send(util_1.default.success(statusCode_1.default.CREATED, responseMessage_1.default.CREATE_PROJECT_SUCCESS, data));
+            res
+                .status(statusCode_1.default.NOT_FOUND)
+                .send(util_1.default.fail(statusCode_1.default.NOT_FOUND, responseMessage_1.default.NOT_FOUND));
+        res
+            .status(statusCode_1.default.CREATED)
+            .send(util_1.default.success(statusCode_1.default.CREATED, responseMessage_1.default.CREATE_PROJECT_SUCCESS, data));
     }
     catch (error) {
         console.log(error);
-        res.status(statusCode_1.default.INTERNAL_SERVER_ERROR).send(util_1.default.fail(statusCode_1.default.INTERNAL_SERVER_ERROR, responseMessage_1.default.INTERNAL_SERVER_ERROR));
+        res
+            .status(statusCode_1.default.INTERNAL_SERVER_ERROR)
+            .send(util_1.default.fail(statusCode_1.default.INTERNAL_SERVER_ERROR, responseMessage_1.default.INTERNAL_SERVER_ERROR));
     }
 });
 /**
@@ -90,6 +98,6 @@ const getProjects = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.default = {
     createProject,
     getProjects,
-    createProject_android
+    createProject_android,
 };
 //# sourceMappingURL=ProjectController.js.map

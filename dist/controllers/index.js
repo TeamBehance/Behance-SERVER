@@ -3,7 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ProjectController_1 = __importDefault(require("./ProjectController"));
+exports.ProjectController = exports.StoryController = exports.FileController = void 0;
 const FileController_1 = __importDefault(require("./FileController"));
-exports.default = { ProjectController: ProjectController_1.default, FileController: FileController_1.default };
+exports.FileController = FileController_1.default;
+const StoryController_1 = __importDefault(require("./StoryController"));
+exports.StoryController = StoryController_1.default;
+const ProjectController_1 = __importDefault(require("./ProjectController"));
+exports.ProjectController = ProjectController_1.default;
 //# sourceMappingURL=index.js.map

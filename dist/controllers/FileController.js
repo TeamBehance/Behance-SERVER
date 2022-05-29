@@ -12,26 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_validator_1 = require("express-validator");
 const responseMessage_1 = __importDefault(require("../modules/responseMessage"));
 const statusCode_1 = __importDefault(require("../modules/statusCode"));
 const util_1 = __importDefault(require("../modules/util"));
-const FileService_1 = __importDefault(require("../services/FileService"));
+const services_1 = require("../services");
 const uploadFileToS3 = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const error = (0, express_validator_1.validationResult)(req);
-    if (!error.isEmpty()) {
+    if (!req.file)
         return res
             .status(statusCode_1.default.BAD_REQUEST)
             .send(util_1.default.fail(statusCode_1.default.BAD_REQUEST, responseMessage_1.default.NULL_VALUE));
-    }
-    if (!req.file) {
-        return res
-            .status(statusCode_1.default.BAD_REQUEST)
-            .send(util_1.default.fail(statusCode_1.default.BAD_REQUEST, responseMessage_1.default.NULL_VALUE));
-    }
-    const fileData = req.file;
+    const image = req.file;
+    const { originalname, location } = image;
     try {
-        const data = yield FileService_1.default.uploadFileToS3(fileData);
+        const data = yield services_1.FileService.createFile(location, originalname);
         res
             .status(statusCode_1.default.CREATED)
             .send(util_1.default.success(statusCode_1.default.CREATED, responseMessage_1.default.CREATE_FILE_SUCCESS, data));

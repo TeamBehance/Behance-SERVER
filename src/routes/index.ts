@@ -1,9 +1,10 @@
+//router index file
 import { Router } from 'express';
+import FileRouter from './FileRouter';
 import ProjectRouter from './ProjectRouter';
 import StoryRouter from './StoryRouter';
-import FileRouter from './FileRouter';
 
-const router = Router();
+const router: Router = Router();
 
 router.use('/project', ProjectRouter);
 router.use('/story', StoryRouter);
