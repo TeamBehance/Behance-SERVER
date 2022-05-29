@@ -7,15 +7,14 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const FileSchema = new mongoose_1.default.Schema({
     link: {
         type: String,
-        required: true,
+        required: true
     },
     fileName: {
         type: String,
-        required: true,
-    },
+        required: true
+    }
 }, {
-    timestamps: true,
-    versionKey: false,
+    timestamps: true // createdAt, updatedAt 자동기록
 });
-exports.default = mongoose_1.default.model('File', FileSchema);
+exports.default = mongoose_1.default.model("File", FileSchema);
 //# sourceMappingURL=File.js.map
